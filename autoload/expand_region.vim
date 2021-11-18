@@ -195,7 +195,13 @@ function! s:get_candidate_list()
   let config = s:get_configuration()
 
   " Generate the candidate list for every defined text object
-  let candidates = keys(config)
+  let candidates = []
+  for [k, v] in items(config)
+    if v !=# 0
+      call add(candidates, k)
+    endif
+  endfor
+
   call map(candidates, "s:get_candidate_dict(v:val)")
 
   " For the ones that are recursive, generate them until they no longer match
